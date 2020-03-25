@@ -75,7 +75,10 @@ class PipeSource(Source):
     def __init__(self, fileno, lexer=None, name='<stdin>'):
         assert isinstance(fileno, int)
         assert lexer is None or isinstance(lexer, Lexer)
-        assert isinstance(name, six.text_type)
+        if six.PY2:
+            assert isinstance(name.decode('utf-8'), six.text_type)
+        else:
+            assert isinstance(name, six.text_type)
 
         self.fileno = fileno
         self.lexer = lexer
